@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="multipart/form-data; charset=utf-8" />
+    <title>七牛网盘qaq</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/theme.css" rel="stylesheet">
+    <link href="bootstrap-fileinput/css/fileinput.css" rel="stylesheet">
+</head>
+
+<body>
+
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">上传文件</h4>
+            </div>
+            <div class="modal-body">
+                <input name="file" id="f_upload" type="file" class="file" multiple/>
+            </div>
+
+            <div class="modal-footer">
+                <button id="btn1" type="button" class="btn btn-success" data-dismiss="modal">确定</button>
+                <button id="btn2" type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+<div id="banner">
+    <div class="container intro_wrapper">
+        <div class="inner_content">
+            <h1>Download Center</h1>
+            <h1 class="title">SAR Related Publications</h1>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="container wrapper">
+    <ul id="tools" class="nav nav-tabs nav-divider">
+        <li class="active">
+            <a href="#download" data-toggle="tab">Download</a>
+        </li>
+        <li>
+            <a href="#upload" data-toggle="tab">Upload</a>
+        </li>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade in active" id="download">
+            <!-- Main content -->
+            <section class="content">
+
+                <div class="row">
+                    <div class="clo-12 col-lg-10">
+                        <!--搜索框开始-->
+                        <div class="input-group" style="text-align: center; margin-top: 20px; margin-bottom: 20px;" >
+                            <div class="row">
+                                <div class="input-group">
+                                    <div class="col-lg-10">
+                                        <input id="searchContent" type="text" style="width: 800px;" class="form-control"  placeholder="Input key words...">
+                                    </div>
+                                    <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" onclick="search()">Search</button>
+                                <button class="btn btn-primary" type="button" onclick="getFiles()">Clear</button>
+                                <button class="btn btn-primary" type="button" onclick="newItem()">New Item</button>
+                            </span>
+                                </div><!-- /input-group -->
+                            </div>
+                        </div><!-- /input-group -->
+                        <!--搜索框结束-->
+                        <div class="row">
+                            <div class="col-16 col-lg-12">
+                            <!-- 资料列表 -->
+                            <h2><b>Items</b></h2>
+                                <div id="items" class="panel-group">
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
+                                                <input id="check1" type="checkbox">
+                                                <a id="title1" data-toggle="collapse" href="#detail1">
+                                                    Statistical Stability and Spatial Instability in Mapping Forest Tree Species by Comparing 9 Years of Satellite Image Time Series
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="detail1" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                <p>test</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 资料列表结束 -->
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <div class="tab-pane fade" id="upload">
+            <p>iOS 是一个由苹果公司开发和发布的手机操作系统。最初是于 2007 年首次发布 iPhone、iPod Touch 和 Apple
+                TV。iOS 派生自 OS X，它们共享 Darwin 基础。OS X 操作系统是用在苹果电脑上，iOS 是苹果的移动版本。</p>
+        </div>
+    </div>
+
+</div>
+
+
+<div id="footer">
+    <h1>Contact me if any question</h1>
+    <h1 class="center follow">
+      <b>1063932362@qq.com</b>
+    </h1>
+</div>
+<div id="footer2">
+    <div class="container">
+        <div class="row">
+            <div class="span12">
+                <div class="copyright">
+                    TanRui
+                    &copy;
+                    <script type="text/javascript">
+                        const d = new Date();
+                        document.write(d.getFullYear())
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a href="#"><i class="go-top hidden-phone hidden-tablet fa fa-angle-double-up"></i></a>
+
+<!-- scripts -->
+<script src="js/jquery-3.4.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="bootstrap-fileinput/js/fileinput.js"></script>
+<script src="bootstrap-fileinput/js/locales/zh.js"></script>
+<script src="js/files.js"></script>
+
+</body>
+
+</html>
