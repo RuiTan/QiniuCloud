@@ -8,17 +8,20 @@ import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.storage.model.FileInfo;
 import top.guitoubing.qiniuweb.domain.FileData;
+import top.guitoubing.qiniuweb.domain.PublicationData;
 import top.guitoubing.qiniuweb.util.ConstantUtil;
 import top.guitoubing.qiniuweb.util.TimeUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FileService {
-    public static ArrayList<FileData> getFiles(){
+    public static List<FileData> getFiles(){
+        return getFilesWithPrefix("");
+    }
+
+    private static List<FileData> getFilesWithPrefix(String prefix) {
         BucketManager bucketManager = QiniuConfiguration.getBucketManager();
-        //文件名前缀
-        String prefix = "";
-        //每次迭代的长度限制，最大1000，推荐值 1000
         int limit = 1000;
         //指定目录分隔符，列出所有公共前缀（模拟列出目录效果）。缺省值为空字符串
         String delimiter = "";
@@ -35,10 +38,29 @@ public class FileService {
         return fileInfos;
     }
 
-    public static ArrayList<FileData> getFilesWithFilter(String filter){
-        ArrayList<FileData> fileData = getFiles();
+    public static List<FileData> getSARFiles(){
+        return getFilesWithPrefix("publications/");
+    }
+
+    public static List<FileData> getFilesWithFilter(String filter){
+        List<FileData> fileData = getFiles();
         fileData.removeIf(data -> fileNameFilter(data.getName(), filter));
         return fileData;
+    }
+
+    public static List<PublicationData> transferAllFilesToPublicaitonDataList(List<FileData> fileDataList){
+        List<PublicationData> publicationDataList = new ArrayList<>();
+        for (FileData fileData: fileDataList) {
+            publicationDataList.add(transferFileToPublicationData(fileData));
+        }
+        return publicationDataList;
+    }
+
+    private static PublicationData transferFileToPublicationData(FileData fileData) {
+        String name = fileData.getName();
+        String url = fileData.getUrl();
+        String[] details = name.split("|");
+        return new PublicationData(details[1], details[0], details[2], details[3], url);
     }
 
     private static boolean fileNameFilter(String name, String filter){

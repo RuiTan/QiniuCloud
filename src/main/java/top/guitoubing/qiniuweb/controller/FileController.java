@@ -3,25 +3,34 @@ package top.guitoubing.qiniuweb.controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import top.guitoubing.qiniuweb.domain.FileData;
+import top.guitoubing.qiniuweb.domain.PublicationData;
 import top.guitoubing.qiniuweb.service.FileService;
 import top.guitoubing.qiniuweb.util.ConstantUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class FileController {
 
     @RequestMapping(value = "getFiles", method = RequestMethod.GET)
     @ResponseBody
-    public ArrayList<FileData> getFiles(){
+    public List<FileData> getFiles(){
         return FileService.getFiles();
+    }
+
+    @RequestMapping(value = "getSARFiles", method = RequestMethod.GET)
+    @ResponseBody
+    public List<PublicationData> getSARFiles(){
+        return FileService.transferAllFilesToPublicaitonDataList(FileService.getSARFiles());
     }
 
     @RequestMapping(value = "getFilesWithFilter", method = RequestMethod.POST)
     @ResponseBody
-    public ArrayList<FileData> getFilesWithFilter(@RequestParam String content){
+    public List<FileData> getFilesWithFilter(@RequestParam String content){
         return FileService.getFilesWithFilter(content);
     }
 
