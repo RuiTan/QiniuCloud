@@ -25,13 +25,19 @@ public class FileController {
     @RequestMapping(value = "getSARFiles", method = RequestMethod.GET)
     @ResponseBody
     public List<PublicationData> getSARFiles(){
-        return FileService.transferAllFilesToPublicaitonDataList(FileService.getSARFiles());
+        return FileService.transferAllFilesToPublicationDataList(FileService.getSARFiles());
     }
 
     @RequestMapping(value = "getFilesWithFilter", method = RequestMethod.POST)
     @ResponseBody
     public List<FileData> getFilesWithFilter(@RequestParam String content){
         return FileService.getFilesWithFilter(content);
+    }
+
+    @RequestMapping(value = "getSARFilesWithFilter", method = RequestMethod.POST)
+    @ResponseBody
+    public List<PublicationData> getSARFilesWithFilter(@RequestParam String content) {
+        return FileService.getSARFilesWithFilter(content);
     }
 
     @RequestMapping(value = "uploadFiles", headers = "content-type=multipart/*", method = RequestMethod.POST)

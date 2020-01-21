@@ -48,25 +48,50 @@ public class FileService {
         return fileData;
     }
 
-    public static List<PublicationData> transferAllFilesToPublicaitonDataList(List<FileData> fileDataList){
+    public static List<PublicationData> getSARFilesWithFilter(String filter) {
+        List<PublicationData> publicationDataList = transferAllFilesToPublicationDataList(getSARFiles());
+        publicationDataList.removeIf(publicationData -> fileNameFilterWithWords(publicationData.getName(), filter.split(" ")));
+        return publicationDataList;
+    }
+
+    public static List<PublicationData> transferAllFilesToPublicationDataList(List<FileData> fileDataList){
         List<PublicationData> publicationDataList = new ArrayList<>();
         for (FileData fileData: fileDataList) {
-            publicationDataList.add(transferFileToPublicationData(fileData));
+            PublicationData publicationData = transferFileToPublicationData(fileData);
+            if (publicationData != null) {
+                publicationDataList.add(publicationData);
+            }
         }
         return publicationDataList;
     }
 
     private static PublicationData transferFileToPublicationData(FileData fileData) {
         String name = fileData.getName();
+        name = name.substring("publications/".length());
         String url = fileData.getUrl();
-        String[] details = name.split("|");
-        return new PublicationData(details[1], details[0], details[2], details[3], url);
+        String[] details = name.split("[$]");
+        if (details.length < 4) {
+            return null;
+        }
+        String desc = details[3].substring(0, details[3].length()-4);
+        String type = details[2].substring(1, details[2].length()-1);
+        return new PublicationData(details[1], details[0], type, desc, url);
     }
 
     private static boolean fileNameFilter(String name, String filter){
         name = name.toLowerCase();
         filter = filter.toLowerCase();
         return !name.contains(filter);
+    }
+
+    private static boolean fileNameFilterWithWords(String name, String[] content) {
+        name = name.toLowerCase();
+        for (String word : content) {
+            if (name.contains(word.toLowerCase())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public static void uploadFile(String path){

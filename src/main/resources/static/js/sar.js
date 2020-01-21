@@ -1,10 +1,26 @@
 
 function displayFiles(data){
+    var items = document.getElementById('items');
+    items.innerHTML = '';
     for (var i in data){
-        var publication = data[i];
-        var panel = document.createElement('div');
-        panel.setAttribute('class', 'panel panel-info');
-
+        var item = '<div class="panel panel-info">\n' +
+            '                                        <div class="panel-heading">\n' +
+            '                                            <h4 class="panel-title">\n' +
+            '                                                <a id="title'+i+'" data-toggle="collapse" href="#detail'+i+'">\n' +
+                                                                data[i].name +
+            '                                                </a>\n' +
+            '                                            </h4>\n' +
+            '                                        </div>\n' +
+            '                                        <div id="detail'+i+'" class="panel-collapse collapse">\n' +
+            '                                            <div class="panel-body">\n<p style="font-size: 14px">' +
+            '                                                <b>Author:</b> '+data[i].author + '<br>' +
+            '                                                <b>Type:</b> <span class="label label-primary">'+data[i].type+'</span>&nbsp;&nbsp;' +
+            '                                                <b>Download:</b> <a href="'+data[i].url+'"><span class="label label-info">download</span></a><br>' +
+            '                                                <b>Desc:</b> '+data[i].description+'</p>' +
+            '                                            </div>\n' +
+            '                                        </div>\n' +
+            '                                    </div>';
+        items.innerHTML += item;
     }
 }
 
@@ -22,13 +38,14 @@ getFiles();
 
 
 function search() {
+    console.log('start search...')
     var searchContent = document.getElementById("searchContent");
     searchContent = searchContent.value;
     if (searchContent == null || searchContent == "") {
         alert("关键词不能为空！");
     }else {
         $.ajax({
-            url: 'getFilesWithFilter',
+            url: 'getSARFilesWithFilter',
             type: 'post',
             data: {
                 content: searchContent
@@ -40,6 +57,15 @@ function search() {
     }
 }
 
+function newItem() {
+    console.log('new item');
+}
+
+function clearKeyWords() {
+    console.log('clear button');
+    document.getElementById("searchContent").value = '';
+    getFiles();
+}
 
 var uid;
 $(function () {
@@ -48,19 +74,21 @@ $(function () {
         console.log($("#f_upload")[0].files);
         console.log($("#f_upload")[0]);
         var files = $("#f_upload")[0].files;
-        var formData = new FormData();
-        for (var i = 0; i < files.length; i++){
-            var file = files[i];
-            formData.append("file", file);
-        }
+        // var formData = new FormData();
+        // for (var i = 0; i < files.length; i++){
+        //     var file = files[i];
+        //     formData.append("file", file);
+        // }
         console.log(formData);
         console.log(formData.get("file"));
         $.ajax({
             type: "POST",              //因为是传输文件，所以必须是post
             url: 'uploadFiles',         //对应的后台处理类的地址
-            data: formData,
+            data: {
+                files: files,
+
+            },
             processData: false,
-            // contentType: "multipart/form-data;boundary=1;charset=utf-8",
             contentType: false,
             success: function (data) {
                 console.log(data);
@@ -89,7 +117,6 @@ $(function () {
     });
 
     $("#f_upload").on('fileuploaded', function(event, data, previewId, index) {//异步上传成功结果处理
-        // var img= JSON.parse(data.response);//接收后台传过来的json数据
         $(event.target)
             .fileinput('clear')
             .fileinput('unlock');
@@ -98,20 +125,3 @@ $(function () {
     });
 
 });
-
-
-function changeBucket(bucket) {
-    $.ajax({
-        url: '/changeBucket',
-        type: 'POST',
-        data: {
-            bucket: bucket
-        },
-        success: function () {
-            window.location.reload(true);
-        },
-        error: function () {
-            alert(" Change Bucket Error!! ");
-        }
-    })
-}
